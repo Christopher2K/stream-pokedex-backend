@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:12.0-alpine
+    volumes:
+      - pokedex_database:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=pokedex
+      - POSTGRES_PASSWORD=pokedex
+      - POSTGRES_DB=poke
+    ports:
+      - "5432:5432"
+
+volumes:
+  pokedex_database:
