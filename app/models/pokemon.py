@@ -22,7 +22,7 @@ class PokemonType(Enum):
     Steel = "Steel"
     Fighting = "Fighting"
     Ice = "Ice"
-    Wate = "Water"
+    Water = "Water"
 
 
 class Pokemon(Model):

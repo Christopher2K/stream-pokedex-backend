@@ -1,11 +1,8 @@
-from typing import List
-
 from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 
 from app import settings
-from app.models import Pokemon
-from app.schemas import PokemonOut
+from app.api import pokemon_router
 
 root = FastAPI()
 
@@ -15,10 +12,7 @@ def read_root():
     return {"Hello": "World"}
 
 
-@root.get("/pokemons", response_model=List[PokemonOut])
-async def get_pokemons():
-    pokemons_list = await Pokemon.all()
-    return pokemons_list
+root.include_router(pokemon_router)
 
 
 register_tortoise(
