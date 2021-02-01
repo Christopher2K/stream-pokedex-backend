@@ -1,11 +1,22 @@
+import os
+from pathlib import Path
+
+import firebase_admin
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from tortoise.contrib.fastapi import register_tortoise
 
 from app import settings
-from app.api import pokemon_router
+from app.api import authentication_router, pokemon_router
 
 root = FastAPI()
+
+FILE_DIR = os.path.dirname(os.path.realpath(__file__))
+firebase_admin.initialize_app(
+    firebase_admin.credentials.Certificate(
+        cert=str(Path(FILE_DIR) / ".." / "firebase_service_account.json")
+    )
+)
 
 origins = [
     "http://127.0.0.1:3000",
@@ -27,6 +38,7 @@ def read_root():
 
 
 root.include_router(pokemon_router)
+root.include_router(authentication_router)
 
 
 register_tortoise(
