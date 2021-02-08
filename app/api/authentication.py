@@ -1,6 +1,7 @@
+from app.dependencies import get_authenticated_user
 from app.models import User
 from app.schemas import authentication, common
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from firebase_admin import auth, exceptions
 
 router = APIRouter(prefix="/auth")
@@ -48,5 +49,8 @@ async def signup(data: authentication.SignupIn):
         raise HTTPException(500, "signup_error")
 
 
-async def get_profile():
-    pass
+@router.get("/profile", response_model=authentication.UserOut)
+async def get_profile(
+    authenticated_user: User = Depends(get_authenticated_user),
+):
+    return authenticated_user
