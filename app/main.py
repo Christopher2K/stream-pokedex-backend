@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from tortoise.contrib.fastapi import register_tortoise
 
 from app import settings
-from app.api import authentication_router, pokemon_router
+from app.api import authentication_router, favorite_router, pokemon_router
 
 root = FastAPI()
 
@@ -39,6 +39,7 @@ def read_root():
 
 root.include_router(pokemon_router)
 root.include_router(authentication_router)
+root.include_router(favorite_router)
 
 
 register_tortoise(
